@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "./logo (2).png";
 
 const featuredServices = [
   {
@@ -52,7 +53,7 @@ const Home = () => {
 
       <header className="navbar">
         <div className="container nav-content">
-          <div className="logo">3arrasli.tn</div>
+          <img src={logo} alt="logo" className="logo" />
           <nav className="nav-links">
             {navLinks.map((link) => (
               link.to ? (
@@ -230,9 +231,9 @@ const styles = `
   }
 
   .logo {
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: #b56f86;
+    width: 180px;
+    height: auto;
+    display: block;
   }
 
   .nav-links {
