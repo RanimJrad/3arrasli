@@ -10,7 +10,7 @@ const publicLinks = [
   { href: "#!", label: "Services" },
 ];
 
-const Navbar = () => {
+const Navbar = ({ onLogoClick }) => {
   const location = useLocation();
   const user = getStoredUser();
 
@@ -23,7 +23,7 @@ const Navbar = () => {
   return (
     <header className="auth-navbar">
       <div className="auth-container auth-navbar-content">
-        <Link className="auth-logo" to="/">
+        <Link className="auth-logo" to="/" onClick={onLogoClick}>
           <img src={logo} alt="logo" className="auth-logo-image" />
         </Link>
 
