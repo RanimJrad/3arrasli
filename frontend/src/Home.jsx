@@ -38,12 +38,12 @@ const featuredServices = [
 
 const footerLinks = ["A propos", "Contact", "FAQ", "Conditions"];
 
-const Home = () => {
+const Home = ({ onLogoClick }) => {
   return (
     <div className="home-page">
       <style>{styles}</style>
 
-      <Navbar />
+      <Navbar onLogoClick={onLogoClick} />
 
       <section className="hero">
         <div className="hero-overlay" />

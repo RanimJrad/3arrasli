@@ -11,13 +11,13 @@ const links = [
   { to: "/signup", label: "Sign Up" },
 ];
 
-const Navbar = () => {
+const Navbar = ({ onLogoClick }) => {
   const location = useLocation();
 
   return (
     <header className="auth-navbar">
       <div className="auth-container auth-navbar-content">
-        <Link className="auth-logo" to="/">
+        <Link className="auth-logo" to="/" onClick={onLogoClick}>
           <img src={logo} alt="logo" className="auth-logo-image" />
         </Link>
 
