@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import logo from "./logo (2).png";
+import Navbar from "./components/Navbar";
 
 const featuredServices = [
   {
@@ -37,13 +36,6 @@ const featuredServices = [
   },
 ];
 
-const navLinks = [
-  { label: "Home", to: "/" },
-  { label: "Prestataires", href: "#!" },
-  { label: "Services", href: "#!" },
-  { label: "Login", to: "/login" },
-  { label: "Sign Up", to: "/signup" },
-];
 const footerLinks = ["A propos", "Contact", "FAQ", "Conditions"];
 
 const Home = () => {
@@ -51,24 +43,7 @@ const Home = () => {
     <div className="home-page">
       <style>{styles}</style>
 
-      <header className="navbar">
-        <div className="container nav-content">
-          <img src={logo} alt="logo" className="logo" />
-          <nav className="nav-links">
-            {navLinks.map((link) => (
-              link.to ? (
-                <Link key={link.label} to={link.to} className="nav-link">
-                  {link.label}
-                </Link>
-              ) : (
-                <a key={link.label} href={link.href} className="nav-link">
-                  {link.label}
-                </a>
-              )
-            ))}
-          </nav>
-        </div>
-      </header>
+      <Navbar />
 
       <section className="hero">
         <div className="hero-overlay" />
@@ -212,49 +187,6 @@ const styles = `
   .container {
     width: min(1120px, 92%);
     margin: 0 auto;
-  }
-
-  .navbar {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: rgba(255, 255, 255, 0.95);
-    border-bottom: 1px solid #f2dce3;
-    backdrop-filter: blur(8px);
-  }
-
-  .nav-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 72px;
-  }
-
-  .logo {
-    width: 180px;
-    height: auto;
-    display: block;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-
-  .nav-link {
-    text-decoration: none;
-    color: var(--dark);
-    font-weight: 600;
-    padding: 0.35rem 0.7rem;
-    border-radius: 99px;
-    transition: 0.2s ease;
-  }
-
-  .nav-link:hover {
-    background: var(--pink-soft);
-    color: #9e5a72;
   }
 
   .hero {

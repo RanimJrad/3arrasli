@@ -21,6 +21,9 @@
 }
 
 .auth-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
   background: rgba(255, 255, 255, 0.92);
   border-bottom: 1px solid #f1d8de;
   backdrop-filter: blur(8px);
@@ -34,10 +37,15 @@
 }
 
 .auth-logo {
-  color: var(--primary);
   text-decoration: none;
-  font-size: 1.3rem;
-  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+}
+
+.auth-logo-image {
+  width: 180px;
+  height: auto;
+  display: block;
 }
 
 .auth-nav-links {
