@@ -54,10 +54,6 @@ const LoginPage = () => {
         <section className="auth-card">
           <h1>Connexion</h1>
           <p className="auth-subtitle">Accedez a votre espace 3arrasli.tn</p>
-          <p className="auth-hint">
-            L'administrateur est cree directement en base de donnees et se connecte ici, sans passer par
-            l'inscription publique.
-          </p>
 
           <form onSubmit={onSubmit} className="auth-form">
             <label htmlFor="email">Email</label>

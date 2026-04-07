@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import SplashScreen from "./components/SplashScreen";
 import Home from "./Home";
+import AdminDashboard from "./pages/AdminDashboard";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 
