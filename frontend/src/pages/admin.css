@@ -1,0 +1,257 @@
+.admin-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(139, 58, 74, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(201, 162, 74, 0.18), transparent 22%),
+    linear-gradient(180deg, #fff7f8 0%, #fffaf2 100%);
+}
+
+.admin-main {
+  padding: 2rem 0 3rem;
+}
+
+.admin-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.8fr);
+  gap: 1rem;
+  align-items: stretch;
+  margin-bottom: 1.5rem;
+}
+
+.admin-eyebrow {
+  color: #8b3a4a;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.65rem;
+}
+
+.admin-hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  color: #3f2730;
+}
+
+.admin-lead {
+  color: #64474f;
+  max-width: 70ch;
+  line-height: 1.6;
+}
+
+.admin-credentials {
+  padding: 1.2rem;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #8b3a4a, #c9a24a);
+  color: #fff9f8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 14px 36px rgba(106, 45, 58, 0.22);
+}
+
+.admin-credentials span,
+.admin-credentials small {
+  opacity: 0.92;
+}
+
+.admin-credentials strong {
+  font-size: 1.2rem;
+  margin: 0.4rem 0;
+}
+
+.admin-loading {
+  display: inline-flex;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #efd8de;
+}
+
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 1.2rem;
+}
+
+.admin-stat-card,
+.admin-panel,
+.admin-chat-card {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid #f0dde2;
+  border-radius: 24px;
+  box-shadow: 0 14px 40px rgba(129, 61, 79, 0.08);
+}
+
+.admin-stat-card {
+  padding: 1.1rem;
+}
+
+.admin-stat-card span {
+  display: block;
+  color: #755761;
+  font-size: 0.92rem;
+  margin-bottom: 0.55rem;
+}
+
+.admin-stat-card strong {
+  color: #3d232c;
+  font-size: 2rem;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.admin-panel {
+  padding: 1.2rem;
+}
+
+.admin-panel-wide {
+  grid-column: 1 / -1;
+}
+
+.admin-panel-head h2 {
+  margin: 0 0 0.35rem;
+  color: #522c38;
+}
+
+.admin-panel-head p {
+  margin: 0 0 1rem;
+  color: #6c545b;
+}
+
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.admin-form.compact {
+  grid-template-columns: 1fr 160px;
+}
+
+.admin-form input,
+.admin-form textarea {
+  min-height: 46px;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  border: 1px solid #ead1d7;
+  background: #fff;
+  outline: none;
+  font: inherit;
+}
+
+.admin-form textarea {
+  min-height: 96px;
+  resize: vertical;
+  grid-column: 1 / -1;
+}
+
+.admin-form .auth-btn {
+  grid-column: 1 / -1;
+}
+
+.admin-list,
+.admin-chat-grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.admin-list-item,
+.admin-review-item,
+.admin-message {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: flex-start;
+  padding: 0.95rem 1rem;
+  border-radius: 18px;
+  background: #fff9fa;
+  border: 1px solid #f3dde2;
+}
+
+.admin-list-item p,
+.admin-review-item p,
+.admin-message p {
+  margin: 0.3rem 0;
+  color: #634850;
+}
+
+.admin-list-item small,
+.admin-review-item small {
+  color: #816770;
+}
+
+.admin-chip {
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-chip.ok {
+  background: #e5f6eb;
+  color: #246a3f;
+}
+
+.admin-chip.warn {
+  background: #ffe7ea;
+  color: #8a3143;
+}
+
+.admin-chip.neutral {
+  background: #fff3d9;
+  color: #845f13;
+}
+
+.admin-inline-actions {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.admin-chat-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.admin-chat-card {
+  padding: 1rem;
+}
+
+.admin-chat-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.9rem;
+}
+
+.admin-chat-messages {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.admin-message {
+  display: block;
+}
+
+.admin-message strong {
+  color: #512b36;
+}
+
+@media (max-width: 980px) {
+  .admin-hero,
+  .admin-grid,
+  .admin-form,
+  .admin-form.compact {
+    grid-template-columns: 1fr;
+  }
+}

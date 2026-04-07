@@ -70,6 +70,10 @@ const SignupPage = () => {
         <section className="auth-card">
           <h1>Inscription</h1>
           <p className="auth-subtitle">Rejoignez 3arrasli.tn en quelques secondes</p>
+          <p className="auth-hint">
+            Le role administrateur n'est pas expose ici: il est cree et conserve directement dans la base de
+            donnees.
+          </p>
 
           <form onSubmit={onSubmit} className="auth-form">
             <label htmlFor="name">Nom</label>

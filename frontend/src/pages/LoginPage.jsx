@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Spinner from "../components/Spinner";
 import api from "../services/api";
+import { saveStoredUser } from "../services/auth";
 import "./auth.css";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -28,9 +30,14 @@ const LoginPage = () => {
 
     setLoading(true);
     try {
-      // Call Flask login endpoint and display returned user feedback.
       const response = await api.post("/login", form);
-      setMessage(`${response.data.message} Bienvenue ${response.data.user.name}.`);
+      const loggedUser = response.data.user;
+      saveStoredUser(loggedUser);
+      setMessage(`${response.data.message} Bienvenue ${loggedUser.name}.`);
+
+      window.setTimeout(() => {
+        navigate(loggedUser.role === "Admin" ? "/admin" : "/");
+      }, 700);
     } catch (err) {
       const apiMessage = err.response?.data?.message || "Echec de la connexion.";
       setError(apiMessage);
@@ -47,6 +54,10 @@ const LoginPage = () => {
         <section className="auth-card">
           <h1>Connexion</h1>
           <p className="auth-subtitle">Accedez a votre espace 3arrasli.tn</p>
+          <p className="auth-hint">
+            L'administrateur est cree directement en base de donnees et se connecte ici, sans passer par
+            l'inscription publique.
+          </p>
 
           <form onSubmit={onSubmit} className="auth-form">
             <label htmlFor="email">Email</label>

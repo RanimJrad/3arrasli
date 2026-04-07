@@ -54,6 +54,8 @@
 }
 
 .auth-nav-link {
+  border: none;
+  background: transparent;
   text-decoration: none;
   color: var(--text);
   font-weight: 600;
@@ -66,6 +68,11 @@
 .auth-nav-link.active {
   color: var(--primary);
   background: #feeff3;
+}
+
+.auth-nav-button {
+  font: inherit;
+  cursor: pointer;
 }
 
 .auth-main {
@@ -94,6 +101,14 @@
   color: #6d4c53;
   text-align: center;
   margin-bottom: 1.4rem;
+}
+
+.auth-hint {
+  margin: -0.3rem 0 1rem;
+  color: #7a5b62;
+  text-align: center;
+  line-height: 1.55;
+  font-size: 0.94rem;
 }
 
 .auth-form {
