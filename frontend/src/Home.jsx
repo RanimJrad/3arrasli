@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const featuredServices = [
   {
@@ -35,7 +36,13 @@ const featuredServices = [
   },
 ];
 
-const navLinks = ["Home", "Prestataires", "Services", "Login", "Sign Up"];
+const navLinks = [
+  { label: "Home", to: "/" },
+  { label: "Prestataires", href: "#!" },
+  { label: "Services", href: "#!" },
+  { label: "Login", to: "/login" },
+  { label: "Sign Up", to: "/signup" },
+];
 const footerLinks = ["A propos", "Contact", "FAQ", "Conditions"];
 
 const Home = () => {
@@ -48,9 +55,15 @@ const Home = () => {
           <div className="logo">3arrasli.tn</div>
           <nav className="nav-links">
             {navLinks.map((link) => (
-              <a key={link} href="#!" className="nav-link">
-                {link}
-              </a>
+              link.to ? (
+                <Link key={link.label} to={link.to} className="nav-link">
+                  {link.label}
+                </Link>
+              ) : (
+                <a key={link.label} href={link.href} className="nav-link">
+                  {link.label}
+                </a>
+              )
             ))}
           </nav>
         </div>
