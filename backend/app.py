@@ -5,6 +5,7 @@ import uuid
 import jwt
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from sqlalchemy import text
 
 from extensions import bcrypt, db
 from models import ChecklistItem, Client, Favorite, Message, Payment, Provider, Reservation
@@ -25,8 +26,11 @@ DEFAULT_CHECKLIST = [
 
 def create_app():
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///wedding_marketplace.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:@localhost/ma_base"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+        "pool_pre_ping": True,
+    }
 
     CORS(app, resources={r"/api/*": {"origins": "*"}, r"/login": {"origins": "*"}, r"/register": {"origins": "*"}})
 
@@ -156,6 +160,34 @@ def create_app():
     @app.get("/api/health")
     def health():
         return jsonify({"status": "ok", "providers": Provider.query.count(), "clients": Client.query.count()})
+
+    @app.get("/api/db-status")
+    def db_status():
+        try:
+            current_database = db.session.execute(text("SELECT DATABASE()")).scalar()
+            tables_rows = db.session.execute(text("SHOW TABLES")).fetchall()
+            tables = [row[0] for row in tables_rows]
+
+            return jsonify(
+                {
+                    "success": True,
+                    "database": current_database,
+                    "tables_count": len(tables),
+                    "tables": tables,
+                    "message": "Connexion XAMPP / MySQL reussie.",
+                }
+            )
+        except Exception as exc:
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Connexion MySQL impossible. Verifiez XAMPP, ma_base et PyMySQL.",
+                        "error": str(exc),
+                    }
+                ),
+                500,
+            )
 
     @app.post("/api/auth/register")
     @app.post("/register")
