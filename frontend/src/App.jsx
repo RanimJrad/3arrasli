@@ -1,56 +1,78 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import SplashScreen from "./components/SplashScreen";
+import AppShell from "./components/AppShell";
 import Home from "./Home";
+import { useAuth } from "./context/AuthContext";
 import AdminDashboard from "./pages/AdminDashboard";
+import BookingPage from "./pages/BookingPage";
+import ChatPage from "./pages/ChatPage";
+import FavoritesPage from "./pages/FavoritesPage";
 import LoginPage from "./pages/LoginPage";
+import PaymentsPage from "./pages/PaymentsPage";
+import PlannerPage from "./pages/PlannerPage";
 import ProviderDashboard from "./pages/ProviderDashboard";
+import ProviderDetailsPage from "./pages/ProviderDetailsPage";
+import ProvidersPage from "./pages/ProvidersPage";
 import SignupPage from "./pages/SignupPage";
 
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
+};
+
 const App = () => {
-  const [showSplash, setShowSplash] = useState(true);
-  const [isSplashExiting, setIsSplashExiting] = useState(false);
-  const exitTimerRef = useRef(null);
-  const hideTimerRef = useRef(null);
-
-  const triggerSplash = () => {
-    window.clearTimeout(exitTimerRef.current);
-    window.clearTimeout(hideTimerRef.current);
-
-    setShowSplash(true);
-    setIsSplashExiting(false);
-
-    exitTimerRef.current = window.setTimeout(() => {
-      setIsSplashExiting(true);
-    }, 2000);
-
-    hideTimerRef.current = window.setTimeout(() => {
-      setShowSplash(false);
-    }, 2500);
-  };
-
-  const handleLogoClick = () => {
-    triggerSplash();
-  };
-
-  useEffect(() => {
-    triggerSplash();
-
-    return () => {
-      window.clearTimeout(exitTimerRef.current);
-      window.clearTimeout(hideTimerRef.current);
-    };
-  }, []);
-
   return (
     <BrowserRouter>
-      {showSplash ? <SplashScreen isExiting={isSplashExiting} /> : null}
       <Routes>
-        <Route path="/" element={<Home onLogoClick={handleLogoClick} />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/provider" element={<ProviderDashboard />} />
+        <Route element={<AppShell />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/providers" element={<ProvidersPage />} />
+          <Route path="/providers/:providerId" element={<ProviderDetailsPage />} />
+          <Route
+            path="/booking"
+            element={
+              <ProtectedRoute>
+                <BookingPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              <ProtectedRoute>
+                <ChatPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/favorites"
+            element={
+              <ProtectedRoute>
+                <FavoritesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/planner"
+            element={
+              <ProtectedRoute>
+                <PlannerPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/payments"
+            element={
+              <ProtectedRoute>
+                <PaymentsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/provider" element={<ProviderDashboard />} />
+        </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

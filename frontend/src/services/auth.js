@@ -1,16 +1,30 @@
-const STORAGE_KEY = "arrasli_user";
+const STORAGE_KEY = "arrasli_auth_session";
 
-export const getStoredUser = () => {
+export const getStoredSession = () => {
   try {
-    const rawUser = window.localStorage.getItem(STORAGE_KEY);
-    return rawUser ? JSON.parse(rawUser) : null;
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
   } catch (error) {
     return null;
   }
 };
 
-export const saveStoredUser = (user) => {
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+export const getStoredUser = () => getStoredSession()?.user || null;
+export const getStoredToken = () => getStoredSession()?.token || "";
+
+export const saveStoredUser = (payload) => {
+  if (payload?.user && payload?.token) {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    return;
+  }
+
+  window.localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      user: payload,
+      token: "",
+    })
+  );
 };
 
 export const clearStoredUser = () => {
