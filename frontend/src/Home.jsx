@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+import React from "react";
+import { Link } from "react-router-dom";
+=======
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -116,8 +120,28 @@ const Home = ({ onLogoClick }) => {
   }, []);
 
   const isVisible = (id) => (visibleIds[id] ? "is-visible" : "");
+>>>>>>> bd2db821f100514414b08d51bcff83e77a84069d
 
+const Home = () => {
   return (
+<<<<<<< HEAD
+    <div className="page-stack">
+      <section className="hero-panel">
+        <div className="hero-copy-block">
+          <p className="eyebrow">Wedding marketplace</p>
+          <h1>Organisez votre mariage, trouvez vos prestataires et reservez sans friction.</h1>
+          <p className="hero-text">
+            Cette base React + Flask couvre la recherche avancee, les favoris, le chat,
+            les reservations, le planificateur et le paiement en ligne avec une architecture claire.
+          </p>
+          <div className="hero-actions">
+            <Link className="btn btn-primary" to="/providers">
+              Explorer les prestataires
+            </Link>
+            <Link className="btn btn-secondary" to="/planner">
+              Ouvrir mon planificateur
+            </Link>
+=======
     <div className="home-page">
       <Navbar onLogoClick={onLogoClick} />
 
@@ -163,73 +187,60 @@ const Home = ({ onLogoClick }) => {
                 <p>Des inspirations douces, un rythme plus fluide et une interface pensee comme une vraie landing page luxe.</p>
               </div>
             </aside>
+>>>>>>> bd2db821f100514414b08d51bcff83e77a84069d
           </div>
+        </div>
 
-          <div
-            className={`hero-search-wrap reveal reveal-delay-2 ${isVisible("hero-search")}`}
-            data-reveal-id="hero-search"
-          >
-            <div className="hero-search-intro">
-              <span className="section-kicker">Recherche inspiree</span>
-              <h2>Trouvez vos prestataires en quelques instants</h2>
-            </div>
-
-            <div className="search-box">
-              <div className="search-field">
-                <label htmlFor="city">Ville</label>
-                <select id="city" aria-label="Ville">
-                  <option>Ville</option>
-                  <option>Tunis</option>
-                  <option>Sousse</option>
-                  <option>Sfax</option>
-                  <option>Monastir</option>
-                </select>
-              </div>
-
-              <div className="search-field">
-                <label htmlFor="budget">Budget</label>
-                <select id="budget" aria-label="Budget">
-                  <option>Budget</option>
-                  <option>Moins de 1000 TND</option>
-                  <option>1000 - 3000 TND</option>
-                  <option>3000 - 5000 TND</option>
-                  <option>Plus de 5000 TND</option>
-                </select>
-              </div>
-
-              <div className="search-field">
-                <label htmlFor="service-type">Type de service</label>
-                <select id="service-type" aria-label="Type de service">
-                  <option>Type de service</option>
-                  <option>Photographe</option>
-                  <option>Salle</option>
-                  <option>Traiteur</option>
-                  <option>Decoration</option>
-                </select>
-              </div>
-
-              <button type="button" className="search-action">
-                Rechercher
-              </button>
-            </div>
-          </div>
+        <div className="hero-card-grid">
+          <article className="info-card accent-card">
+            <span>Recherche avancee</span>
+            <strong>Filtres par ville, budget et type</strong>
+          </article>
+          <article className="info-card">
+            <span>Reservation</span>
+            <strong>Creation rapide via `POST /api/reservations`</strong>
+          </article>
+          <article className="info-card">
+            <span>Messagerie</span>
+            <strong>Polling simple pret a evoluer vers WebSocket</strong>
+          </article>
+          <article className="info-card">
+            <span>Paiement</span>
+            <strong>Validation front + transaction backend</strong>
+          </article>
         </div>
       </section>
 
-      <section className="home-section featured-section">
-        <div className="home-shell">
-          <div
-            className={`section-heading reveal ${isVisible("featured-heading")}`}
-            data-reveal-id="featured-heading"
-          >
-            <span className="section-kicker">Prestataires a la une</span>
-            <h2>Une marketplace pensee comme une selection couture</h2>
-            <p>
-              Des cartes plus editoriales, plus riches et plus luxueuses pour valoriser chaque
-              prestation avec une vraie presence visuelle.
-            </p>
-          </div>
+      <section className="content-section two-columns">
+        <div className="surface-card">
+          <p className="section-label">Fonctionnalites client</p>
+          <h2>Ce que la base inclut</h2>
+          <ul className="feature-list">
+            <li>Liste et fiche detail des prestataires</li>
+            <li>Ajout et suppression des favoris</li>
+            <li>Creation et suivi des reservations</li>
+            <li>Checklist mariage personnalisee</li>
+            <li>Messagerie temps reel simplifiee</li>
+            <li>Paiement securise cote interface</li>
+          </ul>
+        </div>
 
+<<<<<<< HEAD
+        <div className="surface-card warm-card">
+          <p className="section-label">Compte de demonstration</p>
+          <h2>Pour tester immediatement</h2>
+          <ul className="feature-list compact">
+            <li>Client: `client@3arrasli.com`</li>
+            <li>Mot de passe: `Client123!`</li>
+            <li>Prestataire seed: `studio@3arrasli.com`</li>
+            <li>Mot de passe: `Provider123!`</li>
+          </ul>
+          <Link className="btn btn-primary" to="/login">
+            Se connecter
+          </Link>
+        </div>
+      </section>
+=======
           <PremiumCarousel services={featuredServices} />
         </div>
       </section>
@@ -329,6 +340,7 @@ const Home = ({ onLogoClick }) => {
         </div>
         <p className="footer-copy">(c) {new Date().getFullYear()} 3arrasli.tn - Tous droits reserves</p>
       </footer>
+>>>>>>> bd2db821f100514414b08d51bcff83e77a84069d
     </div>
   );
 };
