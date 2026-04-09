@@ -1,15 +1,12 @@
 const STORAGE_KEY = "arrasli_auth_session";
 
-<<<<<<< HEAD
-export const getStoredSession = () => {
-=======
 export const ROLE_ROUTES = {
   Admin: "/admin",
   Prestataire: "/prestataire",
+  Client: "/",
 };
 
-export const getStoredUser = () => {
->>>>>>> bd2db821f100514414b08d51bcff83e77a84069d
+export const getStoredSession = () => {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : null;
@@ -22,7 +19,7 @@ export const getStoredUser = () => getStoredSession()?.user || null;
 export const getStoredToken = () => getStoredSession()?.token || "";
 
 export const saveStoredUser = (payload) => {
-  if (payload?.user && payload?.token) {
+  if (payload?.user && payload?.token !== undefined) {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     return;
   }
@@ -30,7 +27,7 @@ export const saveStoredUser = (payload) => {
   window.localStorage.setItem(
     STORAGE_KEY,
     JSON.stringify({
-      user: payload,
+      user: payload || null,
       token: "",
     })
   );

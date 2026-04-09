@@ -5,10 +5,6 @@ import uuid
 import jwt
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-<<<<<<< HEAD
-from sqlalchemy import inspect, text
-=======
->>>>>>> 2e7ee0cd7bd7fdbf2123d0592fa08474e20832e0
 
 from extensions import bcrypt, db
 from models import ChecklistItem, Client, Favorite, Message, Payment, Provider, Reservation
@@ -29,11 +25,7 @@ DEFAULT_CHECKLIST = [
 
 def create_app():
     app = Flask(__name__)
-<<<<<<< HEAD
-    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:@localhost/ma_base"
-=======
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///wedding_marketplace.db"
->>>>>>> 2e7ee0cd7bd7fdbf2123d0592fa08474e20832e0
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     CORS(app, resources={r"/api/*": {"origins": "*"}, r"/login": {"origins": "*"}, r"/register": {"origins": "*"}})
@@ -486,21 +478,10 @@ def create_app():
 
     return app
 
-
-<<<<<<< HEAD
-def migrate_existing_database():
-    inspector = inspect(db.engine)
-
-    if not inspector.has_table("user"):
-        return
-
-    columns = {column["name"] for column in inspector.get_columns("user")}
-=======
 def seed_client_checklist(client_id):
     existing = ChecklistItem.query.filter_by(client_id=client_id).count()
     if existing:
         return
->>>>>>> 2e7ee0cd7bd7fdbf2123d0592fa08474e20832e0
 
     db.session.add_all([
         ChecklistItem(client_id=client_id, title=title, category=category) for title, category in DEFAULT_CHECKLIST

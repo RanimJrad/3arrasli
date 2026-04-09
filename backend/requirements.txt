@@ -2,8 +2,5 @@ Flask==3.0.3
 Flask-Bcrypt==1.0.1
 Flask-Cors==4.0.1
 Flask-SQLAlchemy==3.1.1
-<<<<<<< HEAD
 PyMySQL==1.1.1
-=======
 PyJWT==2.9.0
->>>>>>> 2e7ee0cd7bd7fdbf2123d0592fa08474e20832e0
