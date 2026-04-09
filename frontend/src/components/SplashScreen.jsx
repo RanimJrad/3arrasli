@@ -40,8 +40,8 @@ const SplashScreen = ({ isExiting = false }) => {
               <radialGradient id="splash-heart-core" cx="50%" cy="44%" r="58%">
                 <stop offset="0%" stopColor="#ffffff" stopOpacity="0.96" />
                 <stop offset="30%" stopColor="#f2cad8" stopOpacity="0.98" />
-                <stop offset="62%" stopColor="#d88aa6" stopOpacity="0.88" />
-                <stop offset="84%" stopColor="#d45a85" stopOpacity="0.24" />
+                <stop offset="62%" stopColor="#f6bbd0" stopOpacity="0.88" />
+                <stop offset="84%" stopColor="#f57ea7" stopOpacity="0.24" />
                 <stop offset="100%" stopColor="#984a6d" stopOpacity="0.28" />
               </radialGradient>
               <filter id="splash-heart-blur" x="-45%" y="-45%" width="190%" height="190%">

@@ -51,48 +51,79 @@ const LoginPage = () => {
       <Navbar />
 
       <main className="auth-main">
-        <section className="auth-card">
-          <h1>Connexion</h1>
-          <p className="auth-subtitle">Accedez a votre espace 3arrasli.tn</p>
+        <section className="auth-shell">
+          <div className="auth-visual-panel">
+            <div className="auth-visual-backdrop auth-visual-login" />
+            <div className="auth-visual-overlay" />
+            <div className="auth-visual-glow auth-visual-glow-one" />
+            <div className="auth-visual-glow auth-visual-glow-two" />
 
-          <form onSubmit={onSubmit} className="auth-form">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="votre@email.com"
-              value={form.email}
-              onChange={onChange}
-            />
+            <div className="auth-visual-content">
+              <span className="auth-kicker">Espace prive mariage</span>
+              <h1>Retrouvez votre espace 3arrasli avec une experience plus douce et plus elegante.</h1>
+              <p>
+                Accedez a vos inspirations, vos selections et vos demarches depuis une interface
+                premium pensee pour les couples et les prestataires du mariage.
+              </p>
 
-            <label htmlFor="password">Mot de passe</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="********"
-              value={form.password}
-              onChange={onChange}
-            />
+              <div className="auth-visual-points">
+                <span>Connexion rapide et securisee</span>
+                <span>Univers romantique et premium</span>
+                <span>Navigation fluide vers votre espace</span>
+              </div>
+            </div>
+          </div>
 
-            <button type="submit" className="auth-btn" disabled={loading}>
-              {loading ? (
-                <>
-                  <Spinner /> Connexion...
-                </>
-              ) : (
-                "Se connecter"
-              )}
-            </button>
-          </form>
+          <section className="auth-card auth-card-login">
+            <div className="auth-card-top">
+              <span className="auth-eyebrow">Connexion</span>
+              <h2>Heureux de vous revoir</h2>
+              <p className="auth-subtitle">Accedez a votre espace 3arrasli.tn avec une experience plus chic et rassurante.</p>
+            </div>
 
-          {error && <p className="auth-alert error">{error}</p>}
-          {message && <p className="auth-alert success">{message}</p>}
+            <form onSubmit={onSubmit} className="auth-form">
+              <div className="auth-field">
+                <label htmlFor="email">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="votre@email.com"
+                  value={form.email}
+                  onChange={onChange}
+                />
+              </div>
 
-          <p className="auth-link-text">
-            Vous n'avez pas de compte ? <Link to="/signup">Creer un compte</Link>
-          </p>
+              <div className="auth-field">
+                <label htmlFor="password">Mot de passe</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="********"
+                  value={form.password}
+                  onChange={onChange}
+                />
+              </div>
+
+              <button type="submit" className="auth-btn" disabled={loading}>
+                {loading ? (
+                  <>
+                    <Spinner /> Connexion...
+                  </>
+                ) : (
+                  "Se connecter"
+                )}
+              </button>
+            </form>
+
+            {error && <p className="auth-alert error">{error}</p>}
+            {message && <p className="auth-alert success">{message}</p>}
+
+            <p className="auth-link-text">
+              Vous n'avez pas de compte ? <Link to="/signup">Creer un compte</Link>
+            </p>
+          </section>
         </section>
       </main>
     </div>

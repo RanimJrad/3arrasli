@@ -67,74 +67,113 @@ const SignupPage = () => {
       <Navbar />
 
       <main className="auth-main">
-        <section className="auth-card">
-          <h1>Inscription</h1>
-          <p className="auth-subtitle">Rejoignez 3arrasli.tn en quelques secondes</p>
+        <section className="auth-shell auth-shell-reverse">
+          <div className="auth-visual-panel">
+            <div className="auth-visual-backdrop auth-visual-signup" />
+            <div className="auth-visual-overlay" />
+            <div className="auth-visual-glow auth-visual-glow-one" />
+            <div className="auth-visual-glow auth-visual-glow-two" />
 
-          <form onSubmit={onSubmit} className="auth-form">
-            <label htmlFor="name">Nom</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Votre nom complet"
-              value={form.name}
-              onChange={onChange}
-            />
+            <div className="auth-visual-content">
+              <span className="auth-kicker">Commencez votre histoire</span>
+              <h1>Creez un compte dans un univers mariage moderne, romantique et soigneusement pense.</h1>
+              <p>
+                Rejoignez la plateforme pour explorer des prestations elegantes, construire votre
+                projet plus sereinement et profiter d'une experience visuelle digne d'un mariage luxe.
+              </p>
 
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="votre@email.com"
-              value={form.email}
-              onChange={onChange}
-            />
+              <div className="auth-visual-points">
+                <span>Inscription simple en quelques secondes</span>
+                <span>Acces couples et prestataires</span>
+                <span>Direction artistique coherente avec la Home</span>
+              </div>
+            </div>
+          </div>
 
-            <label htmlFor="password">Mot de passe</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="Minimum 6 caracteres"
-              value={form.password}
-              onChange={onChange}
-            />
+          <section className="auth-card auth-card-signup">
+            <div className="auth-card-top">
+              <span className="auth-eyebrow">Inscription</span>
+              <h2>Rejoignez 3arrasli.tn</h2>
+              <p className="auth-subtitle">Creez votre compte et entrez dans un espace plus premium, plus fluide et plus inspirant.</p>
+            </div>
 
-            <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              placeholder="Repetez le mot de passe"
-              value={form.confirmPassword}
-              onChange={onChange}
-            />
+            <form onSubmit={onSubmit} className="auth-form">
+              <div className="auth-field">
+                <label htmlFor="name">Nom</label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  placeholder="Votre nom complet"
+                  value={form.name}
+                  onChange={onChange}
+                />
+              </div>
 
-            <label htmlFor="role">Role</label>
-            <select id="role" name="role" value={form.role} onChange={onChange}>
-              <option value="Client">Client</option>
-              <option value="Prestataire">Prestataire</option>
-            </select>
+              <div className="auth-field">
+                <label htmlFor="email">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="votre@email.com"
+                  value={form.email}
+                  onChange={onChange}
+                />
+              </div>
 
-            <button type="submit" className="auth-btn" disabled={loading}>
-              {loading ? (
-                <>
-                  <Spinner /> Inscription...
-                </>
-              ) : (
-                "Creer mon compte"
-              )}
-            </button>
-          </form>
+              <div className="auth-field auth-field-split">
+                <div className="auth-field">
+                  <label htmlFor="password">Mot de passe</label>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Minimum 6 caracteres"
+                    value={form.password}
+                    onChange={onChange}
+                  />
+                </div>
 
-          {error && <p className="auth-alert error">{error}</p>}
-          {message && <p className="auth-alert success">{message}</p>}
+                <div className="auth-field">
+                  <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="Repetez le mot de passe"
+                    value={form.confirmPassword}
+                    onChange={onChange}
+                  />
+                </div>
+              </div>
 
-          <p className="auth-link-text">
-            Vous avez deja un compte ? <Link to="/login">Se connecter</Link>
-          </p>
+              <div className="auth-field">
+                <label htmlFor="role">Role</label>
+                <select id="role" name="role" value={form.role} onChange={onChange}>
+                  <option value="Client">Client</option>
+                  <option value="Prestataire">Prestataire</option>
+                </select>
+              </div>
+
+              <button type="submit" className="auth-btn" disabled={loading}>
+                {loading ? (
+                  <>
+                    <Spinner /> Inscription...
+                  </>
+                ) : (
+                  "Creer mon compte"
+                )}
+              </button>
+            </form>
+
+            {error && <p className="auth-alert error">{error}</p>}
+            {message && <p className="auth-alert success">{message}</p>}
+
+            <p className="auth-link-text">
+              Vous avez deja un compte ? <Link to="/login">Se connecter</Link>
+            </p>
+          </section>
         </section>
       </main>
     </div>

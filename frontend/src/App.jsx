@@ -4,6 +4,7 @@ import SplashScreen from "./components/SplashScreen";
 import Home from "./Home";
 import AdminDashboard from "./pages/AdminDashboard";
 import LoginPage from "./pages/LoginPage";
+import ProviderDashboard from "./pages/ProviderDashboard";
 import SignupPage from "./pages/SignupPage";
 
 const App = () => {
@@ -49,6 +50,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/provider" element={<ProviderDashboard />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

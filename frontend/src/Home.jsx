@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
+import "./Home.css";
 
 const featuredServices = [
   {
@@ -8,7 +9,7 @@ const featuredServices = [
     price: "A partir de 1200 TND",
     rating: 4.9,
     image:
-      "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1400&q=90",
   },
   {
     id: 2,
@@ -16,7 +17,7 @@ const featuredServices = [
     price: "A partir de 3500 TND",
     rating: 4.8,
     image:
-      "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1400&q=90",
   },
   {
     id: 3,
@@ -24,7 +25,7 @@ const featuredServices = [
     price: "A partir de 1800 TND",
     rating: 4.7,
     image:
-      "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=90",
   },
   {
     id: 4,
@@ -32,66 +33,262 @@ const featuredServices = [
     price: "A partir de 900 TND",
     rating: 4.6,
     image:
-      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1400&q=90",
   },
 ];
 
 const footerLinks = ["A propos", "Contact", "FAQ", "Conditions"];
 
+const steps = [
+  {
+    id: 1,
+    label: "Inspiration",
+    title: "Rechercher",
+    description: "Filtrez les prestataires qui correspondent a votre ville, a votre budget et a l'atmosphere souhaitee.",
+  },
+  {
+    id: 2,
+    label: "Selection",
+    title: "Reserver",
+    description: "Comparez les offres, affinez votre selection et contactez les profils les plus alignes avec votre vision.",
+  },
+  {
+    id: 3,
+    label: "Celebration",
+    title: "Profiter",
+    description: "Composez un mariage harmonieux avec des partenaires verifies et une experience plus sereine.",
+  },
+];
+
+const heroHighlights = [
+  "Prestataires verifies",
+  "Ambiance luxe et romantique",
+  "Reservation plus simple",
+];
+
+const useReveal = () => {
+  const [visibleIds, setVisibleIds] = useState({});
+
+  useEffect(() => {
+    const elements = document.querySelectorAll("[data-reveal-id]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          const { revealId } = entry.target.dataset;
+          setVisibleIds((prev) => ({ ...prev, [revealId]: true }));
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.18,
+        rootMargin: "0px 0px -10% 0px",
+      }
+    );
+
+    elements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, []);
+
+  return visibleIds;
+};
+
 const Home = ({ onLogoClick }) => {
+  const [heroOffset, setHeroOffset] = useState(0);
+  const visibleIds = useReveal();
+  const featuredPrimary = featuredServices[0];
+  const featuredSecondary = featuredServices[1];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setHeroOffset(Math.min(window.scrollY * 0.18, 90));
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const isVisible = (id) => (visibleIds[id] ? "is-visible" : "");
+
   return (
     <div className="home-page">
-      <style>{styles}</style>
-
       <Navbar onLogoClick={onLogoClick} />
 
-      <section className="hero">
-        <div className="hero-overlay" />
-        <div className="container hero-content">
-          <h1>Organisez votre mariage facilement</h1>
-          <p>Trouvez les meilleurs prestataires en quelques clics</p>
+      <section className="home-hero">
+        <div
+          className="hero-backdrop"
+          style={{ transform: `translate3d(0, ${heroOffset}px, 0) scale(1.09)` }}
+        />
+        <div className="hero-mesh" />
+        <div className="hero-glow hero-glow-one" />
+        <div className="hero-glow hero-glow-two" />
+        <div className="hero-grain" />
 
-          <div className="search-box">
-            <select aria-label="Ville">
-              <option>Ville</option>
-              <option>Tunis</option>
-              <option>Sousse</option>
-              <option>Sfax</option>
-              <option>Monastir</option>
-            </select>
+        <div className="home-shell hero-shell">
+          <div className="hero-grid">
+            <div className="hero-copy">
+              <span className="hero-pill">Edition mariage premium</span>
+              <h1 className="hero-title">Le plus beau debut pour imaginer un mariage inoubliable.</h1>
+              <p className="hero-text">
+                Explorez une selection de prestataires raffines, composez une experience
+                romantique et donnez a votre grand jour un rendu elegant, fluide et memorablement
+                moderne.
+              </p>
 
-            <select aria-label="Budget">
-              <option>Budget</option>
-              <option>Moins de 1000 TND</option>
-              <option>1000 - 3000 TND</option>
-              <option>3000 - 5000 TND</option>
-              <option>Plus de 5000 TND</option>
-            </select>
+              <div className="hero-highlights">
+                {heroHighlights.map((item, index) => (
+                  <span
+                    key={item}
+                    className={`hero-highlight reveal reveal-delay-${index + 1} ${isVisible("hero-main")}`}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-            <select aria-label="Type de service">
-              <option>Type de service</option>
-              <option>Photographe</option>
-              <option>Salle</option>
-              <option>Traiteur</option>
-              <option>Decoration</option>
-            </select>
+            <aside
+              className={`hero-editorial reveal ${isVisible("hero-main")}`}
+              data-reveal-id="hero-main"
+            >
+              <div className="hero-editorial-card hero-editorial-feature">
+                <div className="editorial-media">
+                  <img src={featuredPrimary.image} alt={featuredPrimary.title} />
+                  <div className="editorial-overlay" />
+                </div>
+                <div className="editorial-content">
+                  <span className="editorial-tag">Coup de coeur</span>
+                  <h2>{featuredPrimary.title}</h2>
+                  <p>
+                    Une selection mise en scene comme une experience editoriale pour donner une
+                    sensation plus haut de gamme des le premier regard.
+                  </p>
+                  <div className="editorial-meta">
+                    <span>Note {featuredPrimary.rating}</span>
+                    <span>{featuredPrimary.price}</span>
+                  </div>
+                </div>
+              </div>
 
-            <button type="button">Rechercher</button>
+              <div className="hero-editorial-row">
+                <div className="hero-editorial-card mini-card">
+                  <span className="mini-card-label">Wedding mood</span>
+                  <p>Des inspirations douces, un rythme plus fluide et une interface pensee comme une vraie landing page luxe.</p>
+                </div>
+
+                <div className="hero-editorial-card service-peek">
+                  <img src={featuredSecondary.image} alt={featuredSecondary.title} />
+                  <div className="service-peek-copy">
+                    <span>Selection salle</span>
+                    <strong>{featuredSecondary.title}</strong>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          <div
+            className={`hero-search-wrap reveal reveal-delay-2 ${isVisible("hero-search")}`}
+            data-reveal-id="hero-search"
+          >
+            <div className="hero-search-intro">
+              <span className="section-kicker">Recherche inspiree</span>
+              <h2>Trouvez vos prestataires en quelques instants</h2>
+            </div>
+
+            <div className="search-box">
+              <div className="search-field">
+                <label htmlFor="city">Ville</label>
+                <select id="city" aria-label="Ville">
+                  <option>Ville</option>
+                  <option>Tunis</option>
+                  <option>Sousse</option>
+                  <option>Sfax</option>
+                  <option>Monastir</option>
+                </select>
+              </div>
+
+              <div className="search-field">
+                <label htmlFor="budget">Budget</label>
+                <select id="budget" aria-label="Budget">
+                  <option>Budget</option>
+                  <option>Moins de 1000 TND</option>
+                  <option>1000 - 3000 TND</option>
+                  <option>3000 - 5000 TND</option>
+                  <option>Plus de 5000 TND</option>
+                </select>
+              </div>
+
+              <div className="search-field">
+                <label htmlFor="service-type">Type de service</label>
+                <select id="service-type" aria-label="Type de service">
+                  <option>Type de service</option>
+                  <option>Photographe</option>
+                  <option>Salle</option>
+                  <option>Traiteur</option>
+                  <option>Decoration</option>
+                </select>
+              </div>
+
+              <button type="button" className="search-action">
+                Rechercher
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
-          <h2 className="section-title">Prestataires a la une</h2>
-          <div className="cards-grid">
-            {featuredServices.map((service) => (
-              <article key={service.id} className="card">
-                <img src={service.image} alt={service.title} />
-                <div className="card-body">
+      <section className="home-section featured-section">
+        <div className="home-shell">
+          <div
+            className={`section-heading reveal ${isVisible("featured-heading")}`}
+            data-reveal-id="featured-heading"
+          >
+            <span className="section-kicker">Prestataires a la une</span>
+            <h2>Une marketplace pensee comme une selection couture</h2>
+            <p>
+              Des cartes plus editoriales, plus riches et plus luxueuses pour valoriser chaque
+              prestation avec une vraie presence visuelle.
+            </p>
+          </div>
+
+          <div className="featured-grid">
+            {featuredServices.map((service, index) => (
+              <article
+                key={service.id}
+                className={`service-card reveal ${index === 0 ? "service-card-large" : ""} ${isVisible(`service-${service.id}`)}`}
+                data-reveal-id={`service-${service.id}`}
+                style={{ transitionDelay: `${index * 120}ms` }}
+              >
+                <div className="service-media">
+                  <img src={service.image} alt={service.title} />
+                  <div className="service-media-overlay" />
+                  <div className="service-badges">
+                    <span className="service-badge">Selection premium</span>
+                    <span className="service-score">Note {service.rating}</span>
+                  </div>
+                </div>
+
+                <div className="service-body">
+                  <div className="service-topline">
+                    <span className="service-category">Luxe wedding</span>
+                    <span className="service-price">{service.price}</span>
+                  </div>
                   <h3>{service.title}</h3>
-                  <p className="price">{service.price}</p>
-                  <p className="rating">* {service.rating}</p>
+                  <p>
+                    Une presentation plus haut de gamme avec plus de profondeur, de douceur et un
+                    hover pense comme une experience premium.
+                  </p>
+                  <div className="service-footer">
+                    <span className="service-detail">Disponibilite rapide</span>
+                    <button type="button">Decouvrir</button>
+                  </div>
                 </div>
               </article>
             ))}
@@ -99,41 +296,77 @@ const Home = ({ onLogoClick }) => {
         </div>
       </section>
 
-      <section className="section how-it-works">
-        <div className="container">
-          <h2 className="section-title">Comment ca marche</h2>
-          <div className="steps">
-            <div className="step">
-              <span>1</span>
-              <h3>Rechercher</h3>
-              <p>Filtrez les meilleurs prestataires selon votre ville et budget.</p>
+      <section className="home-section process-section">
+        <div className="home-shell">
+          <div
+            className={`section-heading reveal ${isVisible("process-heading")}`}
+            data-reveal-id="process-heading"
+          >
+            <span className="section-kicker">Comment ca marche</span>
+            <h2>Un parcours plus visuel, plus rassurant et plus vivant</h2>
+            <p>
+              Chaque etape est mise en scene comme un bloc fort pour guider l'utilisateur avec
+              clarte et sophistication.
+            </p>
+          </div>
+
+          <div className="process-grid">
+            {steps.map((step, index) => (
+              <article
+                key={step.id}
+                className={`process-card reveal ${isVisible(`step-${step.id}`)}`}
+                data-reveal-id={`step-${step.id}`}
+                style={{ transitionDelay: `${index * 140}ms` }}
+              >
+                <div className="process-header">
+                  <span className="process-number">0{step.id}</span>
+                  <span className="process-label">{step.label}</span>
+                </div>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="home-section cta-section">
+        <div
+          className={`home-shell cta-shell reveal ${isVisible("cta-section")}`}
+          data-reveal-id="cta-section"
+        >
+          <div className="cta-panel">
+            <div className="cta-copy">
+              <span className="section-kicker section-kicker-light">Grand jour, grande allure</span>
+              <h2>Transformez vos idees en une celebration elegante et parfaitement rythmee.</h2>
+              <p>
+                Lancez votre recherche, composez votre selection et donnez a votre mariage une
+                signature plus premium des le premier clic.
+              </p>
             </div>
-            <div className="step">
-              <span>2</span>
-              <h3>Reserver</h3>
-              <p>Comparez les offres et reservez en quelques clics.</p>
-            </div>
-            <div className="step">
-              <span>3</span>
-              <h3>Profiter</h3>
-              <p>Vivez votre jour special avec des partenaires verifies.</p>
+
+            <div className="cta-actions">
+              <button type="button" className="cta-primary">
+                Commencer maintenant
+              </button>
+              <span className="cta-note">Des centaines d'inspirations pour une experience plus douce et plus exclusive.</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="cta">
-        <div className="container cta-box">
-          <h2>Prets a planifier votre grand jour ?</h2>
-          <button type="button">Commencer maintenant</button>
-        </div>
-      </section>
-
-      <footer className="footer">
-        <div className="container footer-content">
-          <div>
-            <h3>3arrasli.tn</h3>
-            <p>Votre marketplace mariage en Tunisie.</p>
+      <footer className="home-footer">
+        <div className="footer-glow" />
+        <div className="home-shell footer-shell">
+          <div className="footer-brand">
+            <span className="footer-mark">3A</span>
+            <div>
+              <h3>3arrasli.tn</h3>
+              <p>
+                Votre marketplace mariage en Tunisie, imaginee pour les couples a la recherche
+                d'une experience plus chic, plus contemporaine et plus rassurante.
+              </p>
+            </div>
           </div>
 
           <div className="footer-links">
@@ -144,287 +377,22 @@ const Home = ({ onLogoClick }) => {
             ))}
           </div>
 
-          <div className="socials">
+          <div className="footer-socials">
             <a href="#!" aria-label="Facebook">
-              f
+              Fb
             </a>
             <a href="#!" aria-label="Instagram">
-              i
+              Ig
             </a>
             <a href="#!" aria-label="TikTok">
-              t
+              Tk
             </a>
           </div>
         </div>
-        <p className="copyright">(c) {new Date().getFullYear()} 3arrasli.tn - Tous droits reserves</p>
+        <p className="footer-copy">(c) {new Date().getFullYear()} 3arrasli.tn - Tous droits reserves</p>
       </footer>
     </div>
   );
 };
-
-const styles = `
-  :root {
-    --pink-soft: #ffe8ee;
-    --pink: #f8bfd0;
-    --gold: #c9a44b;
-    --dark: #2d2d2d;
-    --white: #ffffff;
-    --cream: #fff8f3;
-  }
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    font-family: "Segoe UI", sans-serif;
-    background: var(--cream);
-    color: var(--dark);
-  }
-
-  .container {
-    width: min(1120px, 92%);
-    margin: 0 auto;
-  }
-
-  .hero {
-    position: relative;
-    min-height: 76vh;
-    display: grid;
-    place-items: center;
-    background-image: url("https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1600&q=80");
-    background-size: cover;
-    background-position: center;
-  }
-
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, rgba(255, 243, 247, 0.92), rgba(255, 255, 255, 0.7));
-  }
-
-  .hero-content {
-    position: relative;
-    text-align: center;
-    padding: 2.5rem 0;
-  }
-
-  .hero h1 {
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    line-height: 1.15;
-    margin-bottom: 1rem;
-    color: #81384f;
-  }
-
-  .hero p {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    margin-bottom: 2rem;
-    color: #52363f;
-  }
-
-  .search-box {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.75rem;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 0.85rem;
-    border-radius: 16px;
-    box-shadow: 0 18px 40px rgba(159, 86, 111, 0.18);
-  }
-
-  .search-box select,
-  .search-box button {
-    height: 46px;
-    border-radius: 10px;
-    border: 1px solid #edd0d9;
-    font-size: 0.95rem;
-    padding: 0 0.8rem;
-    outline: none;
-  }
-
-  .search-box button {
-    border: none;
-    background: linear-gradient(135deg, #cfa94f, #b58a32);
-    color: var(--white);
-    font-weight: 700;
-    cursor: pointer;
-  }
-
-  .section {
-    padding: 4.5rem 0;
-  }
-
-  .section-title {
-    text-align: center;
-    font-size: clamp(1.6rem, 3vw, 2.1rem);
-    margin-bottom: 2rem;
-    color: #7f3c52;
-  }
-
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.2rem;
-  }
-
-  .card {
-    background: var(--white);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease;
-  }
-
-  .card:hover {
-    transform: translateY(-4px);
-  }
-
-  .card img {
-    width: 100%;
-    height: 170px;
-    object-fit: cover;
-  }
-
-  .card-body {
-    padding: 1rem;
-  }
-
-  .card-body h3 {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .price {
-    color: #ad7b2a;
-    font-weight: 700;
-    margin-bottom: 0.35rem;
-  }
-
-  .rating {
-    color: #a76b33;
-    font-weight: 600;
-  }
-
-  .how-it-works {
-    background: linear-gradient(180deg, #fffafc 0%, #fff2f6 100%);
-  }
-
-  .steps {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-
-  .step {
-    background: var(--white);
-    border: 1px solid #f4d8e0;
-    border-radius: 14px;
-    padding: 1.4rem;
-    text-align: center;
-  }
-
-  .step span {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: #f8d7e2;
-    color: #8d3f57;
-    display: inline-grid;
-    place-items: center;
-    font-weight: 800;
-    margin-bottom: 0.7rem;
-  }
-
-  .step h3 {
-    margin-bottom: 0.5rem;
-    color: #763547;
-  }
-
-  .cta {
-    padding: 2rem 0 4.5rem;
-  }
-
-  .cta-box {
-    background: linear-gradient(135deg, #f9d8e4, #f5ebd6);
-    border: 1px solid #f0d9bd;
-    border-radius: 18px;
-    padding: 2rem;
-    text-align: center;
-  }
-
-  .cta-box h2 {
-    margin-bottom: 1rem;
-    color: #713748;
-  }
-
-  .cta-box button {
-    background: #7e4155;
-    color: var(--white);
-    border: none;
-    border-radius: 10px;
-    height: 46px;
-    padding: 0 1.35rem;
-    font-weight: 700;
-    cursor: pointer;
-  }
-
-  .footer {
-    background: #321f26;
-    color: #ffeef3;
-    padding-top: 2.2rem;
-  }
-
-  .footer-content {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 1.2fr 1fr auto;
-    align-items: center;
-  }
-
-  .footer-links,
-  .socials {
-    display: flex;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-  }
-
-  .footer a {
-    text-decoration: none;
-    color: #ffeef3;
-    opacity: 0.92;
-  }
-
-  .socials a {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
-    display: inline-grid;
-    place-items: center;
-    font-weight: 700;
-  }
-
-  .copyright {
-    text-align: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.18);
-    margin-top: 1.1rem;
-    padding: 0.9rem 0;
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 860px) {
-    .search-box {
-      grid-template-columns: 1fr;
-    }
-
-    .footer-content {
-      grid-template-columns: 1fr;
-      text-align: center;
-      justify-items: center;
-    }
-  }
-`;
 
 export default Home;
