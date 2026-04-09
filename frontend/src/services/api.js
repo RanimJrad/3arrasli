@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getStoredUser } from "./auth";
+import { clearStoredUser, getStoredToken } from "./auth";
 
 const api = axios.create({
   baseURL: "http://localhost:5000",
@@ -9,13 +9,21 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const user = getStoredUser();
-
-  if (user?.role) {
-    config.headers["X-User-Role"] = user.role;
+  const token = getStoredToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-
   return config;
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      clearStoredUser();
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;
