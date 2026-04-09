@@ -50,7 +50,8 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/provider" element={<ProviderDashboard />} />
+        <Route path="/prestataire" element={<ProviderDashboard />} />
+        <Route path="/provider" element={<Navigate to="/prestataire" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
@@ -58,3 +59,4 @@ const App = () => {
 };
 
 export default App;
+
