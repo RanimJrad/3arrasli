@@ -1,6 +1,15 @@
 const STORAGE_KEY = "arrasli_auth_session";
 
+<<<<<<< HEAD
 export const getStoredSession = () => {
+=======
+export const ROLE_ROUTES = {
+  Admin: "/admin",
+  Prestataire: "/prestataire",
+};
+
+export const getStoredUser = () => {
+>>>>>>> bd2db821f100514414b08d51bcff83e77a84069d
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : null;
@@ -30,3 +39,7 @@ export const saveStoredUser = (payload) => {
 export const clearStoredUser = () => {
   window.localStorage.removeItem(STORAGE_KEY);
 };
+
+export const hasRole = (user, role) => user?.role === role;
+
+export const getDashboardPathForUser = (user) => ROLE_ROUTES[user?.role] || "/";

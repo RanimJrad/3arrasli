@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { useAuth } from "../context/AuthContext";
+=======
+import Navbar from "../components/Navbar";
+import Spinner from "../components/Spinner";
+import api from "../services/api";
+import { getDashboardPathForUser, saveStoredUser } from "../services/auth";
+import "./auth.css";
+>>>>>>> bd2db821f100514414b08d51bcff83e77a84069d
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -11,8 +19,19 @@ const LoginPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+<<<<<<< HEAD
       const response = await login(form);
       navigate(response.user.role === "Client" ? "/providers" : "/provider");
+=======
+      const response = await api.post("/login", form);
+      const loggedUser = response.data.user;
+      saveStoredUser(loggedUser);
+      setMessage(`${response.data.message} Bienvenue ${loggedUser.name}.`);
+
+      window.setTimeout(() => {
+        navigate(getDashboardPathForUser(loggedUser));
+      }, 700);
+>>>>>>> bd2db821f100514414b08d51bcff83e77a84069d
     } catch (err) {
       setError(err.response?.data?.message || "Connexion impossible.");
     }
@@ -42,3 +61,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
