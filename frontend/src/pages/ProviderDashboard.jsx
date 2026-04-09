@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Navigate } from "react-router-dom";
 import "./provider.css";
 import ProviderBookings from "./provider/ProviderBookings";
 import ProviderCalendar from "./provider/ProviderCalendar";
@@ -18,7 +17,6 @@ import {
   initialServices,
   providerSections,
 } from "./provider/providerData";
-import { hasRole, getStoredUser } from "../services/auth";
 
 const getDayStatus = (slots) => {
   const reservedCount = slots.filter((slot) => slot.status === "reserved").length;
