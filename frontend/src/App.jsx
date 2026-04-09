@@ -2,10 +2,21 @@ import React, { useEffect, useRef, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
 import Home from "./Home";
+import { hasRole, getStoredUser } from "./services/auth";
 import AdminDashboard from "./pages/AdminDashboard";
 import LoginPage from "./pages/LoginPage";
 import ProviderDashboard from "./pages/ProviderDashboard";
 import SignupPage from "./pages/SignupPage";
+const RequireRole = ({ role, children }) => {
+  const user = getStoredUser();
+
+  if (!hasRole(user, role)) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
+
 
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -49,8 +60,9 @@ const App = () => {
         <Route path="/" element={<Home onLogoClick={handleLogoClick} />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/provider" element={<ProviderDashboard />} />
+        <Route path="/admin" element={<RequireRole role="Admin"><AdminDashboard /></RequireRole>} />
+        <Route path="/prestataire" element={<RequireRole role="Prestataire"><ProviderDashboard /></RequireRole>} />
+        <Route path="/provider" element={<Navigate to="/prestataire" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
@@ -58,3 +70,4 @@ const App = () => {
 };
 
 export default App;
+

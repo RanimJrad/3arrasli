@@ -2,20 +2,38 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../logo (2).png";
 import "../pages/auth.css";
-import { clearStoredUser, getStoredUser } from "../services/auth";
+import { clearStoredUser, getStoredUser, hasRole } from "../services/auth";
 
 const publicLinks = [
   { to: "/", label: "Home" },
-  { to: "/provider", label: "Prestataires" },
   { href: "#!", label: "Services" },
 ];
 
-const getLinkVariant = (link, user) => {
-  if (link.label === "Sign Up" || link.label === "Mon espace") {
+const roleLinks = [
+  {
+    role: "Admin",
+    to: "/admin",
+    label: "Admin",
+    variant: "auth-nav-link-soft",
+  },
+  {
+    role: "Prestataire",
+    to: "/prestataire",
+    label: "Espace Prestataire",
+    variant: "auth-nav-link-primary",
+  },
+];
+
+const getLinkVariant = (link) => {
+  if (link.variant) {
+    return link.variant;
+  }
+
+  if (link.label === "Sign Up") {
     return "auth-nav-link-primary";
   }
 
-  if (link.label === "Login" || (user?.role === "Admin" && link.label === "Admin")) {
+  if (link.label === "Login") {
     return "auth-nav-link-soft";
   }
 
@@ -28,8 +46,7 @@ const Navbar = ({ onLogoClick }) => {
 
   const links = [
     ...publicLinks,
-    ...(user?.role === "Admin" ? [{ to: "/admin", label: "Admin" }] : []),
-    ...(user?.role === "Prestataire" ? [{ to: "/provider", label: "Mon espace" }] : []),
+    ...roleLinks.filter((link) => hasRole(user, link.role)),
     ...(user ? [] : [{ to: "/login", label: "Login" }, { to: "/signup", label: "Sign Up" }]),
   ];
 
@@ -48,21 +65,21 @@ const Navbar = ({ onLogoClick }) => {
 
         <nav className="auth-nav-shell">
           <div className="auth-nav-links">
-          {links.map((link) => (
-            link.to ? (
-              <Link
-                key={link.label}
-                className={`auth-nav-link ${getLinkVariant(link, user)} ${location.pathname === link.to ? "active" : ""}`}
-                to={link.to}
-              >
-                {link.label}
-              </Link>
-            ) : (
-              <a key={link.label} className={`auth-nav-link ${getLinkVariant(link, user)}`} href={link.href}>
-                {link.label}
-              </a>
-            )
-          ))}
+            {links.map((link) => (
+              link.to ? (
+                <Link
+                  key={link.label}
+                  className={`auth-nav-link ${getLinkVariant(link)} ${location.pathname === link.to ? "active" : ""}`}
+                  to={link.to}
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a key={link.label} className={`auth-nav-link ${getLinkVariant(link)}`} href={link.href}>
+                  {link.label}
+                </a>
+              )
+            ))}
           </div>
 
           {user && (
