@@ -12,8 +12,7 @@ const SignupPage = () => {
     name: "",
     email: "",
     password: "",
-    city: "Tunis",
-    wedding_date: "",
+    confirmPassword: "",
     role: "Client",
   });
   const [message, setMessage] = useState("");
@@ -30,19 +29,35 @@ const SignupPage = () => {
     setMessage("");
     setError("");
 
-    if (!form.name || !form.email || !form.password) {
+    if (!form.name || !form.email || !form.password || !form.confirmPassword) {
       setError("Veuillez remplir tous les champs obligatoires.");
+      return;
+    }
+
+    if (form.password !== form.confirmPassword) {
+      setError("Les deux mots de passe doivent etre identiques.");
       return;
     }
 
     setLoading(true);
     try {
-      const response = await api.post("/register", form);
+      const payload = {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+        role: form.role,
+      };
+      const response = await api.post("/register", payload);
       const signedUser = response.data.user;
-      const token = response.data.token || "";
-      saveStoredUser({ user: signedUser, token });
       setMessage(response.data.message || "Inscription reussie.");
-      window.setTimeout(() => navigate(getDashboardPathForUser(signedUser)), 700);
+
+      if (signedUser?.role === "Client") {
+        window.setTimeout(() => navigate("/login"), 900);
+      } else {
+        const token = response.data.token || "";
+        saveStoredUser({ user: signedUser, token });
+        window.setTimeout(() => navigate(getDashboardPathForUser(signedUser)), 700);
+      }
     } catch (err) {
       setError(err.response?.data?.message || "Inscription impossible.");
     } finally {
@@ -79,17 +94,28 @@ const SignupPage = () => {
                 <label htmlFor="email">Email</label>
                 <input id="email" name="email" type="email" value={form.email} onChange={onChange} />
               </div>
-              <div className="auth-field">
-                <label htmlFor="password">Mot de passe</label>
-                <input id="password" name="password" type="password" value={form.password} onChange={onChange} />
+              <div className="auth-field-split">
+                <div className="auth-field">
+                  <label htmlFor="password">Mot de passe</label>
+                  <input id="password" name="password" type="password" value={form.password} onChange={onChange} />
+                </div>
+                <div className="auth-field">
+                  <label htmlFor="confirmPassword">Confirmer mot de passe</label>
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    value={form.confirmPassword}
+                    onChange={onChange}
+                  />
+                </div>
               </div>
               <div className="auth-field">
-                <label htmlFor="city">Ville</label>
-                <input id="city" name="city" value={form.city} onChange={onChange} />
-              </div>
-              <div className="auth-field">
-                <label htmlFor="wedding_date">Date du mariage</label>
-                <input id="wedding_date" name="wedding_date" type="date" value={form.wedding_date} onChange={onChange} />
+                <label htmlFor="role">Role</label>
+                <select id="role" name="role" value={form.role} onChange={onChange}>
+                  <option value="Client">Client</option>
+                  <option value="Prestataire">Prestataire</option>
+                </select>
               </div>
 
               <button type="submit" className="auth-btn" disabled={loading}>

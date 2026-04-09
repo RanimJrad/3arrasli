@@ -6,7 +6,7 @@
   --home-rose-500: #b26b82;
   --home-rose-700: #6a3847;
   --home-burgundy: #47232e;
-  --home-ink: #2f1b22;
+  --home-ink: #6b3d4d;
   --home-cream: #fff9f2;
   --home-gold: #c8a15c;
   --home-gold-soft: #f3e3bf;
@@ -170,13 +170,14 @@ body {
   line-height: 0.92;
   letter-spacing: -0.055em;
   max-width: 11ch;
+  color: rgba(230, 196, 208, 0.98);
   text-shadow: 0 20px 54px rgba(26, 12, 18, 0.34);
 }
 
 .hero-text {
   max-width: 620px;
   margin: 0;
-  color: rgba(255, 248, 246, 0.9);
+  color: #ffffff;
   font-size: clamp(1.06rem, 1.8vw, 1.24rem);
   line-height: 1.85;
 }
@@ -196,7 +197,7 @@ body {
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 249, 247, 0.94);
+  color: rgba(255, 249, 247, 0.851);
   backdrop-filter: blur(16px);
 }
 

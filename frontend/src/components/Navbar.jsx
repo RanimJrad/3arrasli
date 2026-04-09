@@ -6,10 +6,15 @@ import { clearStoredUser, getStoredUser, hasRole } from "../services/auth";
 
 const publicLinks = [
   { to: "/", label: "Home" },
-  { href: "#!", label: "Services" },
 ];
 
 const roleLinks = [
+  {
+    role: "Client",
+    to: "/client-dashboard",
+    label: "Mon espace",
+    variant: "auth-nav-link-primary",
+  },
   {
     role: "Admin",
     to: "/admin",

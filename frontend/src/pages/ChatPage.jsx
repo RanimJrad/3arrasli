@@ -1,126 +1,107 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import api from "../services/api";
+import "./client.css";
 
 const ChatPage = () => {
-  const [providers, setProviders] = useState([]);
+  const [services, setServices] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [draft, setDraft] = useState("");
-  const [searchParams, setSearchParams] = useSearchParams();
-  const providerId = searchParams.get("providerId") || "";
+  const [receiverId, setReceiverId] = useState("");
+  const [content, setContent] = useState("");
+  const [error, setError] = useState("");
 
-  const currentProvider = useMemo(
-    () => providers.find((item) => String(item.id) === String(providerId)),
-    [providers, providerId]
-  );
-
-  const loadProviders = async () => {
-    const response = await api.get("/api/providers");
-    setProviders(response.data.providers);
+  const loadServices = async () => {
+    try {
+      const response = await api.get("/api/services");
+      setServices(response.data.services || []);
+      if (!receiverId && response.data.services?.length) {
+        setReceiverId(String(response.data.services[0].prestataire_id));
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Impossible de charger les prestataires.");
+    }
   };
 
-  const loadMessages = async (selectedProviderId) => {
-    if (!selectedProviderId) {
-      setMessages([]);
+  const loadMessages = async (id) => {
+    if (!id) {
       return;
     }
-
-    const response = await api.get("/api/messages", {
-      params: { provider_id: selectedProviderId },
-    });
-    setMessages(response.data.messages);
+    try {
+      const response = await api.get("/api/chat", { params: { with_user_id: id } });
+      setMessages(response.data.messages || []);
+    } catch (err) {
+      setError(err.response?.data?.message || "Impossible de charger les messages.");
+    }
   };
 
   useEffect(() => {
-    loadProviders();
+    loadServices();
   }, []);
 
   useEffect(() => {
-    loadMessages(providerId);
-    if (!providerId) {
-      return undefined;
-    }
+    loadMessages(receiverId);
+  }, [receiverId]);
 
-    const interval = window.setInterval(() => loadMessages(providerId), 5000);
-    return () => window.clearInterval(interval);
-  }, [providerId]);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (!providerId || !draft.trim()) {
+  const sendMessage = async () => {
+    if (!receiverId || !content.trim()) {
       return;
     }
-
-    const response = await api.post("/api/messages", {
-      provider_id: Number(providerId),
-      content: draft,
-    });
-    setMessages(response.data.messages);
-    setDraft("");
+    try {
+      await api.post("/api/chat/send", { receiver_id: Number(receiverId), content: content.trim() });
+      setContent("");
+      loadMessages(receiverId);
+    } catch (err) {
+      setError(err.response?.data?.message || "Envoi impossible.");
+    }
   };
 
   return (
-    <div className="page-stack">
-      <section className="page-hero page-hero-chat">
-        <div>
-          <p className="section-label">Messagerie mariage</p>
-          <h1>Discutez avec vos prestataires dans une interface plus douce et plus claire</h1>
-          <p className="muted">
-            Le style visuel suit maintenant la meme ambiance que la recherche, la reservation
-            et le planificateur.
-          </p>
+    <div className="client-page">
+      <Navbar />
+      <div className="client-shell client-top">
+        <div className="client-panel">
+          <h2>Chat</h2>
+          <p>Echangez avec vos prestataires.</p>
+          <div className="client-actions">
+            <Link className="client-btn client-btn-soft" to="/client-dashboard">
+              Retour dashboard
+            </Link>
+          </div>
+          {error ? <p className="client-error">{error}</p> : null}
         </div>
-      </section>
 
-      <section className="chat-layout">
-        <aside className="surface-card chat-sidebar">
-          <p className="section-label">Conversations</p>
-          <h2>Choisir un prestataire</h2>
-          <div className="provider-list-mini">
-            {providers.map((provider) => (
-              <button
-                key={provider.id}
-                type="button"
-                className={`conversation-item ${String(provider.id) === String(providerId) ? "active" : ""}`}
-                onClick={() => setSearchParams({ providerId: provider.id })}
-              >
-                <strong>{provider.company_name}</strong>
-                <span>{provider.service_type}</span>
-              </button>
+        <div className="client-panel">
+          <div className="client-filters">
+            <select className="client-select" value={receiverId} onChange={(event) => setReceiverId(event.target.value)}>
+              <option value="">Prestataire</option>
+              {services.map((service) => (
+                <option key={`${service.id}-${service.prestataire_id}`} value={service.prestataire_id}>
+                  {service.prestataire_name}
+                </option>
+              ))}
+            </select>
+            <input className="client-input" value={content} onChange={(event) => setContent(event.target.value)} placeholder="Votre message" />
+            <button type="button" className="client-btn client-btn-primary" onClick={sendMessage}>
+              Envoyer
+            </button>
+          </div>
+        </div>
+
+        <div className="client-panel">
+          <div className="client-chat-list">
+            {messages.map((message) => (
+              <div key={message.id} className="client-chat-item">
+                <div className="client-chat-meta">
+                  <span>{message.sender_name}</span>
+                  <span>{new Date(message.timestamp).toLocaleString()}</span>
+                </div>
+                <p>{message.content}</p>
+              </div>
             ))}
           </div>
-        </aside>
-
-        <div className="surface-card chat-window">
-          <div className="chat-header">
-            <div>
-              <p className="section-label">Chat temps reel simplifie</p>
-              <h1>{currentProvider ? currentProvider.company_name : "Selectionnez une conversation"}</h1>
-            </div>
-          </div>
-
-          <div className="messages-column">
-            {messages.length === 0 ? (
-              <div className="empty-state">
-                <strong>Aucun message pour le moment</strong>
-                <p className="muted">Selectionnez un prestataire puis envoyez votre premiere demande.</p>
-              </div>
-            ) : (
-              messages.map((message) => (
-                <div key={message.id} className={`message-bubble ${message.sender_type}`}>
-                  <span>{message.content}</span>
-                  <small>{new Date(message.created_at).toLocaleString()}</small>
-                </div>
-              ))
-            )}
-          </div>
-
-          <form className="chat-form" onSubmit={handleSubmit}>
-            <input value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Ecrire un message..." />
-            <button className="btn btn-primary" type="submit">Envoyer</button>
-          </form>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
