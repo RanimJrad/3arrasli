@@ -3,7 +3,7 @@ from functools import wraps
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from sqlalchemy import text
+from sqlalchemy import inspect, text
 
 from extensions import bcrypt, db
 from models import (
@@ -131,7 +131,7 @@ def serialize_chat(thread):
 
 def create_app():
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:@localhost/ma_base"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     CORS(app, resources={r"/*": {"origins": "*"}})
@@ -391,7 +391,12 @@ def create_app():
 
 
 def migrate_existing_database():
-    columns = {row[1] for row in db.session.execute(text("PRAGMA table_info(user)")).fetchall()}
+    inspector = inspect(db.engine)
+
+    if not inspector.has_table("user"):
+        return
+
+    columns = {column["name"] for column in inspector.get_columns("user")}
 
     if "is_active" not in columns:
         db.session.execute(text("ALTER TABLE user ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT 1"))
