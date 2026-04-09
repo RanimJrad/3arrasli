@@ -1,5 +1,10 @@
 const STORAGE_KEY = "arrasli_user";
 
+export const ROLE_ROUTES = {
+  Admin: "/admin",
+  Prestataire: "/prestataire",
+};
+
 export const getStoredUser = () => {
   try {
     const rawUser = window.localStorage.getItem(STORAGE_KEY);
@@ -16,3 +21,7 @@ export const saveStoredUser = (user) => {
 export const clearStoredUser = () => {
   window.localStorage.removeItem(STORAGE_KEY);
 };
+
+export const hasRole = (user, role) => user?.role === role;
+
+export const getDashboardPathForUser = (user) => ROLE_ROUTES[user?.role] || "/";

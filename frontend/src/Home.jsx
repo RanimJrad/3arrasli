@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import PremiumCarousel from "./components/PremiumCarousel";
 import "./Home.css";
 
 const featuredServices = [
@@ -100,8 +102,7 @@ const useReveal = () => {
 const Home = ({ onLogoClick }) => {
   const [heroOffset, setHeroOffset] = useState(0);
   const visibleIds = useReveal();
-  const featuredPrimary = featuredServices[0];
-  const featuredSecondary = featuredServices[1];
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -157,38 +158,9 @@ const Home = ({ onLogoClick }) => {
               className={`hero-editorial reveal ${isVisible("hero-main")}`}
               data-reveal-id="hero-main"
             >
-              <div className="hero-editorial-card hero-editorial-feature">
-                <div className="editorial-media">
-                  <img src={featuredPrimary.image} alt={featuredPrimary.title} />
-                  <div className="editorial-overlay" />
-                </div>
-                <div className="editorial-content">
-                  <span className="editorial-tag">Coup de coeur</span>
-                  <h2>{featuredPrimary.title}</h2>
-                  <p>
-                    Une selection mise en scene comme une experience editoriale pour donner une
-                    sensation plus haut de gamme des le premier regard.
-                  </p>
-                  <div className="editorial-meta">
-                    <span>Note {featuredPrimary.rating}</span>
-                    <span>{featuredPrimary.price}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="hero-editorial-row">
-                <div className="hero-editorial-card mini-card">
-                  <span className="mini-card-label">Wedding mood</span>
-                  <p>Des inspirations douces, un rythme plus fluide et une interface pensee comme une vraie landing page luxe.</p>
-                </div>
-
-                <div className="hero-editorial-card service-peek">
-                  <img src={featuredSecondary.image} alt={featuredSecondary.title} />
-                  <div className="service-peek-copy">
-                    <span>Selection salle</span>
-                    <strong>{featuredSecondary.title}</strong>
-                  </div>
-                </div>
+              <div className="hero-editorial-card mini-card">
+                <span className="mini-card-label">Wedding mood</span>
+                <p>Des inspirations douces, un rythme plus fluide et une interface pensee comme une vraie landing page luxe.</p>
               </div>
             </aside>
           </div>
@@ -258,41 +230,7 @@ const Home = ({ onLogoClick }) => {
             </p>
           </div>
 
-          <div className="featured-grid">
-            {featuredServices.map((service, index) => (
-              <article
-                key={service.id}
-                className={`service-card reveal ${index === 0 ? "service-card-large" : ""} ${isVisible(`service-${service.id}`)}`}
-                data-reveal-id={`service-${service.id}`}
-                style={{ transitionDelay: `${index * 120}ms` }}
-              >
-                <div className="service-media">
-                  <img src={service.image} alt={service.title} />
-                  <div className="service-media-overlay" />
-                  <div className="service-badges">
-                    <span className="service-badge">Selection premium</span>
-                    <span className="service-score">Note {service.rating}</span>
-                  </div>
-                </div>
-
-                <div className="service-body">
-                  <div className="service-topline">
-                    <span className="service-category">Luxe wedding</span>
-                    <span className="service-price">{service.price}</span>
-                  </div>
-                  <h3>{service.title}</h3>
-                  <p>
-                    Une presentation plus haut de gamme avec plus de profondeur, de douceur et un
-                    hover pense comme une experience premium.
-                  </p>
-                  <div className="service-footer">
-                    <span className="service-detail">Disponibilite rapide</span>
-                    <button type="button">Decouvrir</button>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+          <PremiumCarousel services={featuredServices} />
         </div>
       </section>
 
@@ -346,7 +284,7 @@ const Home = ({ onLogoClick }) => {
             </div>
 
             <div className="cta-actions">
-              <button type="button" className="cta-primary">
+              <button type="button" className="cta-primary" onClick={() => navigate("/signup")}>
                 Commencer maintenant
               </button>
               <span className="cta-note">Des centaines d'inspirations pour une experience plus douce et plus exclusive.</span>

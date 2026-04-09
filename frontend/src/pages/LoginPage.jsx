@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Spinner from "../components/Spinner";
 import api from "../services/api";
-import { saveStoredUser } from "../services/auth";
+import { getDashboardPathForUser, saveStoredUser } from "../services/auth";
 import "./auth.css";
 
 const LoginPage = () => {
@@ -36,7 +36,7 @@ const LoginPage = () => {
       setMessage(`${response.data.message} Bienvenue ${loggedUser.name}.`);
 
       window.setTimeout(() => {
-        navigate(loggedUser.role === "Admin" ? "/admin" : "/");
+        navigate(getDashboardPathForUser(loggedUser));
       }, 700);
     } catch (err) {
       const apiMessage = err.response?.data?.message || "Echec de la connexion.";
@@ -131,3 +131,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+

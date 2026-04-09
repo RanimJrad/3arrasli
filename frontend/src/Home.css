@@ -568,6 +568,118 @@ body {
   gap: 22px;
 }
 
+.premium-carousel {
+  display: grid;
+  gap: 18px;
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  width: 56px;
+  height: 56px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  border: 1px solid rgba(178, 107, 130, 0.24);
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--home-burgundy);
+  font-size: 1.55rem;
+  line-height: 1;
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(96, 48, 64, 0.12);
+  transition:
+    transform var(--home-transition),
+    box-shadow var(--home-transition),
+    opacity var(--home-transition);
+}
+
+.carousel-arrow:hover:not(:disabled) {
+  transform: translateY(calc(-50% - 2px));
+  box-shadow: 0 18px 32px rgba(96, 48, 64, 0.18);
+}
+
+.carousel-arrow:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.carousel-arrow-prev {
+  left: 14px;
+}
+
+.carousel-arrow-next {
+  right: 14px;
+}
+
+.premium-carousel-viewport {
+  position: relative;
+  overflow: hidden;
+  margin: 0 -11px;
+}
+
+.premium-carousel-viewport::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 112px;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(
+    270deg,
+    rgba(255, 249, 247, 0.36) 0%,
+    rgba(255, 249, 247, 0.12) 35%,
+    rgba(255, 249, 247, 0) 100%
+  );
+  backdrop-filter: blur(2px);
+  z-index: 3;
+}
+
+.premium-carousel-track {
+  display: flex;
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.premium-carousel-slide {
+  flex: 0 0 50%;
+  min-width: 50%;
+  padding: 0 11px;
+}
+
+.carousel-service-card {
+  height: 100%;
+}
+
+.premium-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(106, 56, 71, 0.22);
+  cursor: pointer;
+  transition:
+    transform var(--home-transition),
+    background var(--home-transition);
+}
+
+.carousel-dot:hover {
+  transform: scale(1.08);
+}
+
+.carousel-dot.is-active {
+  background: var(--home-burgundy);
+  transform: scale(1.1);
+}
+
 .service-card {
   grid-column: span 4;
   display: grid;
@@ -1093,6 +1205,19 @@ body {
   .search-box,
   .featured-grid {
     grid-template-columns: 1fr;
+  }
+
+  .premium-carousel-slide {
+    flex-basis: 100%;
+    min-width: 100%;
+  }
+
+  .premium-carousel-viewport {
+    margin: 0;
+  }
+
+  .premium-carousel-viewport::after {
+    width: 78px;
   }
 
   .service-media,
